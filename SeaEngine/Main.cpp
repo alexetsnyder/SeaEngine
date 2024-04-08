@@ -1,3 +1,4 @@
+#include <glad/glad.h>
 #include <SDL/SDL.h>
 
 #include <iostream>
@@ -34,6 +35,12 @@ int main(int argc, char** argv)
 	if (SDL_GL_CreateContext(window) == nullptr)
 	{
 		std::cout << "ERROR::SDL_GL_CreateContext(window): " << SDL_GetError() << "\n";
+		return EXIT_FAILURE;
+	}
+
+	if (!gladLoadGLLoader(static_cast<GLADloadproc>(SDL_GL_GetProcAddress)))
+	{
+		std::cout << "ERROR::gladLoadGLLoader(GLADloadproc)\n";
 		return EXIT_FAILURE;
 	}
 
