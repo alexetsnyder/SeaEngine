@@ -18,11 +18,22 @@ int main(int argc, char** argv)
 										  SDL_WINDOWPOS_CENTERED,
 										  1024,
 										  768,
-										  SDL_WINDOW_SHOWN);
+										  SDL_WINDOW_OPENGL);
 
 	if (window == nullptr)
 	{
 		std::cout << "ERROR::SDL_CreateWindow(...): " << SDL_GetError() << "\n";
+		return EXIT_FAILURE;
+	}
+
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+
+	if (SDL_GL_CreateContext(window) == nullptr)
+	{
+		std::cout << "ERROR::SDL_GL_CreateContext(window): " << SDL_GetError() << "\n";
 		return EXIT_FAILURE;
 	}
 
