@@ -1,3 +1,6 @@
+#include "Rendering/Shader.h"
+#include "System/Logging/ErrorLog.h"
+
 #include <glad/glad.h>
 #include <SDL/SDL.h>
 
@@ -46,6 +49,16 @@ int main(int argc, char** argv)
 
 	glViewport(0, 0, 1024, 768);
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+
+	SeaEngine::Shader shader{};
+	if (!shader.setVertexShader("Rendering/Shaders/basicVertex.glsl") ||
+		!shader.setFragmentShader("Rendering/Shaders/basicFragment.glsl") ||
+		!shader.compile() ||
+		!shader.link())
+	{
+		SeaEngine::Sys::ErrorLog::log("Main::CreateShader", "Could not create Shaders");
+		return EXIT_FAILURE;
+	}
 
 	while (pollEvents())
 	{

@@ -135,11 +135,17 @@
   <ItemGroup>
     <ClCompile Include="..\third_party\cFiles\glad.c" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Rendering\Shader.cpp" />
+    <ClCompile Include="System\Logging\ErrorLog.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="..\third_party\dlls\SDL2.dll">
       <FileType>Document</FileType>
     </CopyFileToFolders>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Rendering\Shader.h" />
+    <ClInclude Include="System\Logging\ErrorLog.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
