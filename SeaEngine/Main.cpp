@@ -44,7 +44,15 @@ int main(int argc, char** argv)
 		return EXIT_FAILURE;
 	}
 
-	while (pollEvents());
+	glViewport(0, 0, 1024, 768);
+	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+
+	while (pollEvents())
+	{
+		glClear(GL_COLOR_BUFFER_BIT);
+
+		SDL_GL_SwapWindow(window);
+	}
 
 	SDL_DestroyWindow(window);
 	SDL_Quit();
