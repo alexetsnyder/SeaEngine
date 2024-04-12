@@ -7,6 +7,20 @@
 #include <iostream>
 #include <cstdlib>
 
+float quadVertexArray[12]
+{
+	 0.5f,  0.5f,  0.0f,	//top right
+	-0.5f,  0.5f,  0.0f,	//top left
+	 0.5f, -0.5f,  0.0f,	//bottom right
+	-0.5f, -0.5f,  0.0f,	//bottom left
+};
+
+int quadIndexArray[6]
+{
+	0, 1, 2,
+	2, 1, 3,
+};
+
 bool pollEvents();
 
 int main(int argc, char** argv)
@@ -60,9 +74,35 @@ int main(int argc, char** argv)
 		return EXIT_FAILURE;
 	}
 
+	GLuint vao{};
+	GLuint vbo{};
+	GLuint ebo{};
+
+	glGenVertexArrays(1, &vao);
+	glGenBuffers(1, &vbo);
+	glGenBuffers(1, &ebo);
+
+	glBindVertexArray(vao);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+
+	glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertexArray), quadVertexArray, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(quadIndexArray), quadIndexArray, GL_STATIC_DRAW);
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+
+	glBindVertexArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
 	while (pollEvents())
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
+
+		glBindVertexArray(vao);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		glBindVertexArray(0);
 
 		SDL_GL_SwapWindow(window);
 	}
