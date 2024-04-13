@@ -1,10 +1,9 @@
 #include "Rendering/Shader.h"
 #include "System/Logging/ErrorLog.h"
+#include "System/Window.h"
 
 #include <glad/glad.h>
-#include <SDL/SDL.h>
 
-#include <iostream>
 #include <cstdlib>
 
 float quadVertexArray[12]
@@ -23,52 +22,13 @@ int quadIndexArray[6]
 
 bool pollEvents();
 
-SDL_Window* window;
-bool isFullScreen{ false };
+SeaEngine::Sys::Window* window;
 int screenWidth{ 1024 };
 int screenHeight{ 768 };
 
 int main(int argc, char** argv)
 {
-	if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
-	{
-		std::cout << "ERROR::SDL_Init(SDL_INIT_EVERYTHING): " << SDL_GetError() << "\n";
-		return EXIT_FAILURE;
-	}
-
-	window = SDL_CreateWindow("SeaEngine", 
-							  SDL_WINDOWPOS_CENTERED,
-							  SDL_WINDOWPOS_CENTERED,
-							  screenWidth,
-							  screenHeight,
-							  SDL_WINDOW_OPENGL |
-							  SDL_WINDOW_RESIZABLE);
-
-	if (window == nullptr)
-	{
-		std::cout << "ERROR::SDL_CreateWindow(...): " << SDL_GetError() << "\n";
-		return EXIT_FAILURE;
-	}
-
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-
-	if (SDL_GL_CreateContext(window) == nullptr)
-	{
-		std::cout << "ERROR::SDL_GL_CreateContext(window): " << SDL_GetError() << "\n";
-		return EXIT_FAILURE;
-	}
-
-	if (!gladLoadGLLoader(static_cast<GLADloadproc>(SDL_GL_GetProcAddress)))
-	{
-		std::cout << "ERROR::gladLoadGLLoader(GLADloadproc)\n";
-		return EXIT_FAILURE;
-	}
-
-	glViewport(0, 0, screenWidth, screenHeight);
-	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+	window = new SeaEngine::Sys::Window("SeaEngine", screenWidth, screenHeight);
 
 	SeaEngine::Shader shader{};
 	if (!shader.setVertexShader("Rendering/Shaders/basicVertex.glsl") ||
@@ -104,7 +64,7 @@ int main(int argc, char** argv)
 
 	while (pollEvents())
 	{
-		glClear(GL_COLOR_BUFFER_BIT);
+		window->ClearBuffer();
 
 		shader.use();
 
@@ -112,11 +72,10 @@ int main(int argc, char** argv)
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 
-		SDL_GL_SwapWindow(window);
+		window->SwapBuffer();
 	}
 
-	SDL_DestroyWindow(window);
-	SDL_Quit();
+	delete window;
 
 	return EXIT_SUCCESS;
 }
@@ -124,7 +83,7 @@ int main(int argc, char** argv)
 bool pollEvents()
 {
 	SDL_Event event;
-	while (SDL_PollEvent(&event))
+	while (window->pollEvent(&event))
 	{
 		switch (event.type)
 		{
@@ -133,9 +92,7 @@ bool pollEvents()
 			case SDL_WINDOWEVENT:
 				if (event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
 				{
-					screenWidth = event.window.data1;
-					screenHeight = event.window.data2;
-					glViewport(0, 0, screenWidth, screenHeight);
+					window->resizeWindow(event.window.data1, event.window.data2);
 				}
 				break;
 			case SDL_KEYDOWN:
@@ -145,19 +102,7 @@ bool pollEvents()
 				}
 				else if (event.key.keysym.sym == SDLK_F1)
 				{
-					isFullScreen = !isFullScreen;
-					if (isFullScreen)
-					{
-						SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
-						SDL_GetWindowSize(window, &screenWidth, &screenHeight);
-						glViewport(0, 0, screenWidth, screenHeight);
-					}
-					else
-					{
-						SDL_SetWindowFullscreen(window, 0);
-						SDL_GetWindowSize(window, &screenWidth, &screenHeight);
-						glViewport(0, 0, screenWidth, screenHeight);
-					}
+					window->toggleFullScreen();
 				}
 				break;
 		}

@@ -137,6 +137,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Rendering\Shader.cpp" />
     <ClCompile Include="System\Logging\ErrorLog.cpp" />
+    <ClCompile Include="System\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="..\third_party\dlls\SDL2.dll">
@@ -146,6 +147,7 @@
   <ItemGroup>
     <ClInclude Include="Rendering\Shader.h" />
     <ClInclude Include="System\Logging\ErrorLog.h" />
+    <ClInclude Include="System\Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
