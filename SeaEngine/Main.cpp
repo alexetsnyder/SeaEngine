@@ -23,6 +23,11 @@ int quadIndexArray[6]
 
 bool pollEvents();
 
+SDL_Window* window;
+bool isFullScreen{ false };
+int screenWidth{ 1024 };
+int screenHeight{ 768 };
+
 int main(int argc, char** argv)
 {
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
@@ -31,12 +36,13 @@ int main(int argc, char** argv)
 		return EXIT_FAILURE;
 	}
 
-	SDL_Window* window = SDL_CreateWindow("SeaEngine", 
-										  SDL_WINDOWPOS_CENTERED,
-										  SDL_WINDOWPOS_CENTERED,
-										  1024,
-										  768,
-										  SDL_WINDOW_OPENGL);
+	window = SDL_CreateWindow("SeaEngine", 
+							  SDL_WINDOWPOS_CENTERED,
+							  SDL_WINDOWPOS_CENTERED,
+							  screenWidth,
+							  screenHeight,
+							  SDL_WINDOW_OPENGL |
+							  SDL_WINDOW_RESIZABLE);
 
 	if (window == nullptr)
 	{
@@ -61,7 +67,7 @@ int main(int argc, char** argv)
 		return EXIT_FAILURE;
 	}
 
-	glViewport(0, 0, 1024, 768);
+	glViewport(0, 0, screenWidth, screenHeight);
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
 	SeaEngine::Shader shader{};
@@ -124,10 +130,34 @@ bool pollEvents()
 		{
 			case SDL_QUIT:
 				return false;
+			case SDL_WINDOWEVENT:
+				if (event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
+				{
+					screenWidth = event.window.data1;
+					screenHeight = event.window.data2;
+					glViewport(0, 0, screenWidth, screenHeight);
+				}
+				break;
 			case SDL_KEYDOWN:
 				if (event.key.keysym.sym == SDLK_ESCAPE)
 				{
 					return false;
+				}
+				else if (event.key.keysym.sym == SDLK_F1)
+				{
+					isFullScreen = !isFullScreen;
+					if (isFullScreen)
+					{
+						SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+						SDL_GetWindowSize(window, &screenWidth, &screenHeight);
+						glViewport(0, 0, screenWidth, screenHeight);
+					}
+					else
+					{
+						SDL_SetWindowFullscreen(window, 0);
+						SDL_GetWindowSize(window, &screenWidth, &screenHeight);
+						glViewport(0, 0, screenWidth, screenHeight);
+					}
 				}
 				break;
 		}
