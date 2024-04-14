@@ -89,12 +89,6 @@ bool pollEvents()
 		{
 			case SDL_QUIT:
 				return false;
-			case SDL_WINDOWEVENT:
-				if (event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
-				{
-					window->resizeWindow(event.window.data1, event.window.data2);
-				}
-				break;
 			case SDL_KEYDOWN:
 				if (event.key.keysym.sym == SDLK_ESCAPE)
 				{

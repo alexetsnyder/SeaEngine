@@ -24,7 +24,16 @@ namespace SeaEngine::Sys
 
 	int Window::pollEvent(SDL_Event* event)
 	{
-		return SDL_PollEvent(event);
+		int eventPolled = SDL_PollEvent(event);
+
+		if (eventPolled 
+			&& event->type == SDL_WINDOWEVENT 
+			&& event->window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
+		{
+			resizeWindow(event->window.data1, event->window.data2);
+		}
+
+		return eventPolled;
 	}
 
 	void Window::ClearBuffer()
