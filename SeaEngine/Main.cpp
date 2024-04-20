@@ -1,3 +1,4 @@
+#include "Exceptions/InitException.h"
 #include "Rendering/Shader.h"
 #include "System/Logging/ErrorLog.h"
 #include "System/Window.h"
@@ -28,8 +29,16 @@ int screenHeight{ 768 };
 
 int main(int argc, char** argv)
 {
-	window = new SeaEngine::Sys::Window("SeaEngine", screenWidth, screenHeight);
-
+	try
+	{
+		window = new SeaEngine::Sys::Window("SeaEngine", screenWidth, screenHeight);
+	}
+	catch (const SeaEngine::InitException& exception)
+	{
+		SeaEngine::Sys::ErrorLog::log("main", exception.what());
+		return EXIT_FAILURE;
+	}
+	
 	SeaEngine::Shader shader{};
 	if (!shader.setVertexShader("Rendering/Shaders/basicVertex.glsl") ||
 		!shader.setFragmentShader("Rendering/Shaders/basicFragment.glsl") ||

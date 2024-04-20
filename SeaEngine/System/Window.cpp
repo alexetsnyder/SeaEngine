@@ -1,6 +1,7 @@
 #include "Window.h"
 
 #include "Logging/ErrorLog.h"
+#include "../Exceptions/InitException.h"
 
 #include <glad/glad.h>
 
@@ -18,8 +19,7 @@ namespace SeaEngine::Sys
 
 	Window::~Window()
 	{
-		SDL_DestroyWindow(window_);
-		SDL_Quit();
+		free();
 	}
 
 	int Window::pollEvent(SDL_Event* event)
@@ -73,7 +73,7 @@ namespace SeaEngine::Sys
 		if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
 		{
 			ErrorLog::log("SDL_Init(SDL_INIT_EVERYTHIG)", SDL_GetError());
-			//return EXIT_FAILURE;
+			throw InitException("SDL_Init failed");
 		}
 	}
 
@@ -90,7 +90,8 @@ namespace SeaEngine::Sys
 		if (window_ == nullptr)
 		{
 			ErrorLog::log("SDL_CreateWindow(...)", SDL_GetError());
-			//return EXIT_FAILURE;
+			SDL_Quit();
+			throw InitException("SDL_CreateWindow failed.");
 		}
 	}
 
@@ -104,7 +105,8 @@ namespace SeaEngine::Sys
 		if (SDL_GL_CreateContext(window_) == nullptr)
 		{
 			ErrorLog::log("SDL_GL_CreateContext(window)", SDL_GetError());
-			//return EXIT_FAILURE;
+			free();
+			throw InitException("SDL_GL_CreateContext failed.");
 		}
 	}
 
@@ -113,7 +115,8 @@ namespace SeaEngine::Sys
 		if (!gladLoadGLLoader(static_cast<GLADloadproc>(SDL_GL_GetProcAddress)))
 		{
 			ErrorLog::log("gladLoadGLLoader(GLADloadproc)", "GLAD load failed.");
-			//return EXIT_FAILURE;
+			free();
+			throw InitException("gladLoadGLLoader failed.");
 		}
 	}
 
@@ -127,5 +130,11 @@ namespace SeaEngine::Sys
 	{
 		SDL_GetWindowSize(window_, &width_, &height_);
 		glViewport(0, 0, width_, height_);
+	}
+
+	void Window::free()
+	{
+		SDL_DestroyWindow(window_);
+		SDL_Quit();
 	}
 }

@@ -145,6 +145,7 @@
     </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Exceptions\InitException.h" />
     <ClInclude Include="Rendering\Shader.h" />
     <ClInclude Include="System\Logging\ErrorLog.h" />
     <ClInclude Include="System\Window.h" />

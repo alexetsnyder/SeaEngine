@@ -8,6 +8,7 @@ namespace SeaEngine::Sys
 	{
 		public:
 			Window(const char* title, int width, int height);
+			Window(const Window&) = delete;
 			~Window();
 
 			int width() const { return width_; }
@@ -26,6 +27,7 @@ namespace SeaEngine::Sys
 			void loadGLAD();
 			void setOpenGLOptions();
 			void updateWindowSize();
+			void free();
 
 			bool isFullScreen_;
 			int width_;
