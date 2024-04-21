@@ -135,6 +135,9 @@
   <ItemGroup>
     <ClCompile Include="..\third_party\cFiles\glad.c" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Rendering\Mesh.cpp" />
+    <ClCompile Include="Rendering\MeshRenderer.cpp" />
+    <ClCompile Include="Rendering\QuadMesh.cpp" />
     <ClCompile Include="Rendering\Shader.cpp" />
     <ClCompile Include="System\Logging\ErrorLog.cpp" />
     <ClCompile Include="System\Window.cpp" />
@@ -146,6 +149,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Exceptions\InitException.h" />
+    <ClInclude Include="Rendering\IRenderer.h" />
+    <ClInclude Include="Rendering\Mesh.h" />
+    <ClInclude Include="Rendering\MeshRenderer.h" />
+    <ClInclude Include="Rendering\QuadMesh.h" />
     <ClInclude Include="Rendering\Shader.h" />
     <ClInclude Include="System\Logging\ErrorLog.h" />
     <ClInclude Include="System\Window.h" />
