@@ -26,6 +26,8 @@ namespace SeaEngine
 			void createShader();
 			void pollEvents();
 			void loop();
+			void update();
+			void render();
 
 			GameState gameState_;
 			Sys::Window window_;

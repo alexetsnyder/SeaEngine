@@ -6,7 +6,8 @@
 namespace SeaEngine
 {
 	Game::Game(const std::string& title, int windowWidth, int windowHeight)
-		: gameState_{ GameState::RUNNING }, window_{ title.c_str(), windowWidth, windowHeight },
+		: gameState_{ GameState::RUNNING }, 
+		  window_{ title.c_str(), windowWidth, windowHeight },
 		  shader_{}, quadMesh_{}
 	{
 		createShader();
@@ -64,13 +65,25 @@ namespace SeaEngine
 		{
 			pollEvents();
 
-			window_.ClearBuffer();
+			update();
 
-			shader_.use();
-
-			quadMesh_.renderer()->draw(shader_);
-
-			window_.SwapBuffer();
+			render();
 		}
+	}
+
+	void Game::update()
+	{
+
+	}
+
+	void Game::render()
+	{
+		window_.ClearBuffer();
+
+		shader_.use();
+
+		quadMesh_.renderer()->draw(shader_);
+
+		window_.SwapBuffer();
 	}
 }
