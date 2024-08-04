@@ -1,27 +1,26 @@
-#include <SFML/Graphics.hpp>
+#include <SFML/OpenGL.hpp>
+#include <SFML/Window.hpp>
 
 #include <cstdlib>
 #include <iostream>
 
 int main(int argc, char** argv)
 {
-	sf::RenderWindow window{ sf::VideoMode(200, 200), "SeaEngine" };
-	sf::CircleShape circle{ 100.0f };
-	circle.setFillColor(sf::Color::Green);
+	sf::Window window{ sf::VideoMode(200, 200), "SeaEngine" };
+	window.setVerticalSyncEnabled(true);
 
-	while (window.isOpen())
+	window.setActive(true);
+
+	bool isRunning = true;
+	while (isRunning)
 	{
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
 			if (event.type == sf::Event::Closed)
 			{
-				window.close();
+				isRunning = false;
 			}
-
-			window.clear();
-			window.draw(circle);
-			window.display();
 		}
 	}
 
