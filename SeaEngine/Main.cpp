@@ -6,6 +6,7 @@
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <SFML/Graphics.hpp>
 #include <SFML/OpenGL.hpp>
 #include <SFML/Window.hpp>
 
@@ -44,6 +45,10 @@ int main(int argc, char** argv)
 	SeaEngine::MeshRenderer meshRenderer{};
 	SeaEngine::Quad quad{ &meshRenderer };
 
+	sf::Texture texture{};
+	texture.loadFromFile("Assets/Textures/stone.png");
+	texture.generateMipmap();
+
 	bool isRunning = true;
 	while (isRunning)
 	{
@@ -68,6 +73,8 @@ int main(int argc, char** argv)
 			shader.setUniform("projection", projection);
 			shader.setUniform("view", view);
 			shader.setUniform("model", model);
+
+			sf::Texture::bind(&texture);
 
 			quad.renderer()->draw(shader);
 
