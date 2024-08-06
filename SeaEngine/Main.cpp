@@ -64,11 +64,11 @@ int main(int argc, char** argv)
 
 			shader.use();
 
-			//glm::perspective(glm::radians(45.0f), static_cast<float>(width) / height, 0.1f, 1000.0f)
-
-			glm::mat4 projection{ 1.0f };
+			glm::mat4 projection{ glm::perspective(glm::radians(45.0f), static_cast<float>(width) / height, 0.1f, 1000.0f) };
 			glm::mat4 view{ 1.0f };
 			glm::mat4 model{ 1.0f };
+
+			view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
 
 			shader.setUniform("projection", projection);
 			shader.setUniform("view", view);
