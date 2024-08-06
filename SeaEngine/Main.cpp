@@ -2,6 +2,7 @@
 #include "Rendering/Shader.h"
 #include "Rendering/Mesh/MeshRenderer.h"
 #include "Rendering/Shapes/Quad.h"
+#include "Rendering/Shapes/Cube.h"
 
 #include <glad/glad.h>
 #include <glm/glm.hpp>
@@ -31,6 +32,7 @@ int main(int argc, char** argv)
 
 	glViewport(0, 0, width, height);
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+	glEnable(GL_DEPTH_TEST);
 
 	SeaEngine::Shader shader{};
 	if (!shader.setVertexShader("Rendering/Shaders/basic.vert") ||
@@ -43,11 +45,14 @@ int main(int argc, char** argv)
 	}
 
 	SeaEngine::MeshRenderer meshRenderer{};
-	SeaEngine::Quad quad{ &meshRenderer };
+	//SeaEngine::Quad quad{ &meshRenderer };
+	SeaEngine::Cube cube{ &meshRenderer };
 
 	sf::Texture texture{};
 	texture.loadFromFile("Assets/Textures/stone.png");
 	texture.generateMipmap();
+
+	sf::Clock clock{};
 
 	bool isRunning = true;
 	while (isRunning)
@@ -59,27 +64,29 @@ int main(int argc, char** argv)
 			{
 				isRunning = false;
 			}
-
-			glClear(GL_COLOR_BUFFER_BIT);
-
-			shader.use();
-
-			glm::mat4 projection{ glm::perspective(glm::radians(45.0f), static_cast<float>(width) / height, 0.1f, 1000.0f) };
-			glm::mat4 view{ 1.0f };
-			glm::mat4 model{ 1.0f };
-
-			view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-
-			shader.setUniform("projection", projection);
-			shader.setUniform("view", view);
-			shader.setUniform("model", model);
-
-			sf::Texture::bind(&texture);
-
-			quad.renderer()->draw(shader);
-
-			window.display();
 		}
+
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		shader.use();
+
+		glm::mat4 projection{ glm::perspective(glm::radians(45.0f), static_cast<float>(width) / height, 0.1f, 1000.0f) };
+		glm::mat4 view{ 1.0f };
+		glm::mat4 model{ 1.0f };
+
+		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+		model = glm::rotate(model, static_cast<float>(clock.getElapsedTime().asSeconds()), glm::vec3(0.5f, 1.0f, 0.0f));
+
+		shader.setUniform("projection", projection);
+		shader.setUniform("view", view);
+		shader.setUniform("model", model);
+
+		sf::Texture::bind(&texture);
+
+		//quad.renderer()->draw(shader);
+		cube.renderer()->draw(shader);
+
+		window.display();
 	}
 
 	return EXIT_SUCCESS;

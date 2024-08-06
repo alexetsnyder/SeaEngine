@@ -138,6 +138,7 @@
     <ClCompile Include="Rendering\Mesh\Mesh.cpp" />
     <ClCompile Include="Rendering\Mesh\MeshRenderer.cpp" />
     <ClCompile Include="Rendering\Shader.cpp" />
+    <ClCompile Include="Rendering\Shapes\Cube.cpp" />
     <ClCompile Include="Rendering\Shapes\Quad.cpp" />
     <ClCompile Include="System\Logging\ErrorLog.cpp" />
   </ItemGroup>
@@ -146,6 +147,7 @@
     <ClInclude Include="Rendering\Mesh\Mesh.h" />
     <ClInclude Include="Rendering\Mesh\MeshRenderer.h" />
     <ClInclude Include="Rendering\Shader.h" />
+    <ClInclude Include="Rendering\Shapes\Cube.h" />
     <ClInclude Include="Rendering\Shapes\Quad.h" />
     <ClInclude Include="System\Logging\ErrorLog.h" />
   </ItemGroup>
