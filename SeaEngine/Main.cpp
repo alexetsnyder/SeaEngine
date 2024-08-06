@@ -14,15 +14,21 @@
 #include <cstdlib>
 #include <iostream>
 
+void viewContextSettings(const sf::Window& window);
+
 int main(int argc, char** argv)
 {
 	int width = 800;
 	int height = 600;
 
-	sf::Window window{ sf::VideoMode(width, height), "SeaEngine" };
+	sf::ContextSettings context{ 24, 0, 0, 4, 6 };
+
+	sf::Window window{ sf::VideoMode(width, height), "SeaEngine", sf::Style::Default, context };
 	window.setVerticalSyncEnabled(true);
 
 	window.setActive(true);
+
+	viewContextSettings(window);
 
 	if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(sf::Context::getFunction)))
 	{
@@ -33,7 +39,7 @@ int main(int argc, char** argv)
 	glViewport(0, 0, width, height);
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
+	//glEnable(GL_CULL_FACE);
 	
 	SeaEngine::Shader shader{};
 	if (!shader.setVertexShader("Rendering/Shaders/basic.vert") ||
@@ -91,4 +97,14 @@ int main(int argc, char** argv)
 	}
 
 	return EXIT_SUCCESS;
+}
+
+void viewContextSettings(const sf::Window& window)
+{
+	sf::ContextSettings settings = window.getSettings();
+
+	std::cout << "depth bits:" << settings.depthBits << std::endl;
+	std::cout << "stencil bits:" << settings.stencilBits << std::endl;
+	std::cout << "antialiasing level:" << settings.antialiasingLevel << std::endl;
+	std::cout << "version:" << settings.majorVersion << "." << settings.minorVersion << std::endl;
 }
