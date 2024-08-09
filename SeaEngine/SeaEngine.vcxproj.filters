@@ -18,60 +18,63 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\third_party\cFiles\glad.c">
+    <ClCompile Include="System\Logging\ErrorLog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="System\Logging\ErrorLog.cpp">
+    <ClCompile Include="..\third_party\cFiles\glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="System\Window.cpp">
+    <ClCompile Include="Rendering\Mesh\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Rendering\QuadMesh.cpp">
+    <ClCompile Include="Rendering\Mesh\MeshRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Rendering\MeshRenderer.cpp">
+    <ClCompile Include="Rendering\Shapes\Quad.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Rendering\Mesh.cpp">
+    <ClCompile Include="Rendering\Shapes\Cube.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp">
+    <ClCompile Include="Engine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Graphics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CopyFileToFolders Include="..\third_party\dlls\SDL2.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Rendering\Shader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="System\Logging\ErrorLog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="System\Window.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Exceptions\InitException.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\QuadMesh.h">
+    <ClInclude Include="Rendering\Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\IRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Rendering\MeshRenderer.h">
+    <ClInclude Include="Rendering\Mesh\Mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Rendering\Mesh.h">
+    <ClInclude Include="Rendering\Mesh\MeshRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game.h">
+    <ClInclude Include="Rendering\Shapes\Quad.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Shapes\Cube.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="System\Exceptions\InitException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Graphics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

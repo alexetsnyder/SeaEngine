@@ -1,6 +1,8 @@
 #include "Shader.h"
 
-#include "../System/Logging/ErrorLog.h"
+#include "System/Logging/ErrorLog.h"
+
+#include <glm/gtc/type_ptr.hpp>
 
 #include <fstream>
 
@@ -108,6 +110,18 @@ namespace SeaEngine
 		glUseProgram(programID_);
 	}
 
+	void Shader::setUniform(const std::string& name, const glm::mat4& matrix) const
+	{
+		GLuint mat4Loc = glGetUniformLocation(programID_, name.c_str());
+		glUniformMatrix4fv(mat4Loc, 1, GL_FALSE, glm::value_ptr(matrix));
+	}
+
+	void Shader::setUniform(const std::string& name, const glm::vec3& vector) const
+	{
+		GLuint vectorLoc = glGetUniformLocation(programID_, name.c_str());
+		glUniform3f(vectorLoc, vector.x, vector.y, vector.z);
+	}
+
 	std::string Shader::readFile(const std::string& filePath)
 	{
 		std::string fileStr = "";
@@ -130,7 +144,7 @@ namespace SeaEngine
 		return fileStr;
 	}
 
-	bool Shader::compile(GLuint shader, std::vector<GLchar>& infoLog)
+	bool Shader::compile(GLuint shader, std::vector<char>& infoLog)
 	{
 		glCompileShader(shader);
 
