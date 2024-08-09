@@ -1,2 +1,2 @@
 # SeaEngine
-Voxel engine with C++, OpenGL, and SDL2
+Voxel engine with C++, OpenGL, and SFML
