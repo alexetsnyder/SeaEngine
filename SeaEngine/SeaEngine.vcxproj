@@ -156,6 +156,10 @@
     <ClInclude Include="System\Exceptions\InitException.h" />
     <ClInclude Include="System\Logging\ErrorLog.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Rendering\Shaders\greedy.frag" />
+    <None Include="Rendering\Shaders\greedy.vert" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

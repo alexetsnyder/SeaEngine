@@ -78,4 +78,8 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Rendering\Shaders\greedy.frag" />
+    <None Include="Rendering\Shaders\greedy.vert" />
+  </ItemGroup>
 </Project>

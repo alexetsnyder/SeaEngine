@@ -13,12 +13,12 @@ namespace SeaEngine
 	Engine::Engine(const sf::ContextSettings& context, int windowWidth, int windowHeight)
 		: window_{ sf::VideoMode(windowWidth, windowHeight), "SeaEngine", sf::Style::Default, context },
 		  graphics_{ windowWidth, windowHeight }, clock_{}, shader_{}, meshRenderer_ {},
-		  cube_{ &meshRenderer_ }, cubeTexture_{}, isRunning_{ true }
+		  quad_{ &meshRenderer_ }, atlasTexture_{}, isRunning_{ true }
 	{
 		viewContextSettings();
 		createShader();
-		cubeTexture_.loadFromFile("Assets/Textures/Stone.png");
-		cubeTexture_.generateMipmap();
+		atlasTexture_.loadFromFile("Assets/Textures/Atlas.png");
+		atlasTexture_.generateMipmap();
 	}
 
 	void Engine::run()
@@ -53,8 +53,8 @@ namespace SeaEngine
 
 	void Engine::createShader()
 	{
-		if (!shader_.setVertexShader("Rendering/Shaders/basic.vert") ||
-			!shader_.setFragmentShader("Rendering/Shaders/basic.frag") ||
+		if (!shader_.setVertexShader("Rendering/Shaders/greedy.vert") ||
+			!shader_.setFragmentShader("Rendering/Shaders/greedy.frag") ||
 			!shader_.compile() ||
 			!shader_.link())
 		{
@@ -78,16 +78,20 @@ namespace SeaEngine
 		glm::mat4 view{ 1.0f };
 		glm::mat4 model{ 1.0f };
 
-		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-		model = glm::rotate(model, static_cast<float>(clock_.getElapsedTime().asSeconds()), glm::vec3(0.5f, 1.0f, 0.0f));
+		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -24.0f));
+		model = glm::scale(model, glm::vec3(16.0f, 16.0f, 0.0f));
+		//model = glm::rotate(model, static_cast<float>(clock_.getElapsedTime().asSeconds()), glm::vec3(0.5f, 1.0f, 0.0f));
 
 		shader_.setUniform("projection", projection);
 		shader_.setUniform("view", view);
 		shader_.setUniform("model", model);
 
-		sf::Texture::bind(&cubeTexture_);
+		shader_.setUniform("atlasTilePosition", glm::vec2(16.0f / 256.0f, 0.0f));
+		shader_.setUniform("atlasTileSize", glm::vec2(16.0f / 256.0f, 16.0f / 256.0f));
 
-		cube_.renderer()->draw(shader_);
+		sf::Texture::bind(&atlasTexture_);
+
+		quad_.renderer()->draw(shader_);
 
 		window_.display();
 	}

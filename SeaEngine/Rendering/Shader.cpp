@@ -110,6 +110,12 @@ namespace SeaEngine
 		glUseProgram(programID_);
 	}
 
+	void Shader::setUniform(const std::string& name, const glm::vec2& vector) const
+	{
+		GLuint vectorLoc = glGetUniformLocation(programID_, name.c_str());
+		glUniform2f(vectorLoc, vector.x, vector.y);
+	}
+
 	void Shader::setUniform(const std::string& name, const glm::mat4& matrix) const
 	{
 		GLuint mat4Loc = glGetUniformLocation(programID_, name.c_str());

@@ -2,7 +2,7 @@
 
 #include "Rendering/Graphics.h"
 #include "Rendering/Mesh/MeshRenderer.h"
-#include "Rendering/Shapes/Cube.h"
+#include "Rendering/Shapes/Quad.h"
 #include "Rendering/Shader.h"
 
 #include <SFML/Graphics.hpp>
@@ -30,7 +30,7 @@ namespace SeaEngine
 
 			Shader shader_;
 			MeshRenderer meshRenderer_;
-			Cube cube_;
-			sf::Texture cubeTexture_;
+			Quad quad_;
+			sf::Texture atlasTexture_;
 	};
 }

@@ -3,8 +3,8 @@
 #include "System/Logging/ErrorLog.h"
 #include <cstdlib>
 
-constexpr int DefaultWindowWidth{ 800 };
-constexpr int DefaultWindowHeight{ 600 };
+constexpr int DefaultWindowWidth{ 1920 };
+constexpr int DefaultWindowHeight{ 1080 };
 
 int main(int argc, char** argv)
 {
